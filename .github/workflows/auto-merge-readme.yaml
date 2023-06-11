@@ -1,10 +1,9 @@
-name: auto-merge-pr
+name: auto-merge-readme
 
 on:
   pull_request:
     branches: [ main ]
-    types: [ opened, synchronize, reopened ]
-    # types: [ opened ]
+    types: [ opened ]
 
 permissions:
   pull-requests: write
@@ -17,12 +16,11 @@ jobs:
       startsWith(github.head_ref, 'auto/')
       && github.event.pull_request.user.login == 'bufferings'
     env:
-      ACTOR_LOGIN: ${{ github.event.actor.login }}"
       PR_URL: ${{github.event.pull_request.html_url}}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Approve PR
         run: gh pr review "$PR_URL" --approve
 
-      # - name: Enable auto-merge
-      #   run: gh pr merge --merge --auto "$PR_URL"
+      - name: Enable auto-merge
+        run: gh pr merge --merge --auto "$PR_URL"
