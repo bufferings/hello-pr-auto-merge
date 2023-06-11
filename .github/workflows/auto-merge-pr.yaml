@@ -23,9 +23,11 @@ jobs:
 
   auto-merge:
     runs-on: ubuntu-latest
-    # if: >-
+    if: >-
+      github.event.actor.login == 'bufferings'
+
     #   startsWith(github.head_ref, 'update/')
-#      && github.event.actor.login == 'bufferings'
+    #  && github.event.actor.login == 'bufferings'
     env:
       ACTOR_LOGIN: ${{ github.event.actor.login }}"
       PR_URL: ${{github.event.pull_request.html_url}}
