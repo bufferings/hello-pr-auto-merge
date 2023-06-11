@@ -11,15 +11,15 @@ permissions:
   contents: write
 
 jobs:
-  # check:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - run: |
-  #         echo "github.head_ref=${{ github.head_ref }}"
-  #         echo "github.actor=${{ github.actor }}"
-  #         echo "github.event.pull_request.html_url=${{ github.event.pull_request.html_url }}"
-  #         echo "github.event.pull_request.user.login=${{ github.event.pull_request.user.login }}"
-  #         echo "github.event.actor=${{ github.event.actor.login }}"
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "github.head_ref=${{ github.head_ref }}"
+          echo "github.actor=${{ github.actor }}"
+          echo "github.event.pull_request.html_url=${{ github.event.pull_request.html_url }}"
+          echo "github.event.pull_request.user.login=${{ github.event.pull_request.user.login }}"
+          echo "github.event.actor=${{ github.event.actor.login }}"
 
   auto-merge:
     runs-on: ubuntu-latest
