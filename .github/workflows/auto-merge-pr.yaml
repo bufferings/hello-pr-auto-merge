@@ -23,8 +23,8 @@ jobs:
 
   auto-merge:
     runs-on: ubuntu-latest
-    if: >-
-      startsWith(github.head_ref, 'update/')
+    # if: >-
+    #   startsWith(github.head_ref, 'update/')
 #      && github.event.actor.login == 'bufferings'
     env:
       ACTOR_LOGIN: ${{ github.event.actor.login }}"
@@ -34,5 +34,5 @@ jobs:
       - name: Approve PR
         run: gh pr review "$PR_URL" --approve
 
-      - name: Enable auto-merge
-        run: gh pr merge --merge --auto "$PR_URL"
+      # - name: Enable auto-merge
+      #   run: gh pr merge --merge --auto "$PR_URL"
