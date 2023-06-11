@@ -26,12 +26,10 @@ jobs:
 
       - name: Check if only README.md is updated
         env:
-          HEAD_REF: ${{ github.head_ref }}
           BASE_REF: ${{ github.base_ref }}
         run: |
-          echo "HEAD_REF=$HEAD_REF"
           echo "BASE_REF=$BASE_REF"
-          git diff --name-only "$BASE_REF" "$HEAD_REF" | tee /tmp/diffs
+          git diff --name-only "origin/$BASE_REF" HEAD | tee /tmp/diffs
           cat /tmp/diffs
 
 
