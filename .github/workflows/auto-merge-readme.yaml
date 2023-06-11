@@ -3,7 +3,7 @@ name: auto-merge-readme
 on:
   pull_request:
     branches: [ main ]
-    types: [ opened ]
+    types: [ opened, synchronize ]
 
 permissions:
   pull-requests: write
@@ -19,7 +19,22 @@ jobs:
       PR_URL: ${{github.event.pull_request.html_url}}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Checkout repository with preceding commits
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check if only README.md is updated
+        run: |
+          git diff --name-only "origin/main" HEAD | tee /tmp/diffs
+          if [ "$(wc -l < /tmp/diffs)" -eq "$(grep -c "^README.md$" /tmp/diffs)" ]; then
+            echo 'ONLY_README=yes' | tee -a "$GITHUB_ENV"
+          else
+            echo 'ONLY_README=no' | tee -a "$GITHUB_ENV"
+          fi
+
       - name: Approve PR
+        if: env.ONLY_README == 'yes'
         run: gh pr review "$PR_URL" --approve
 
       - name: Enable auto-merge
