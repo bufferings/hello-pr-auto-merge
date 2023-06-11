@@ -3,7 +3,7 @@ name: auto-merge-readme
 on:
   pull_request:
     branches: [ main ]
-    types: [ opened, synchronize ]
+    types: [ opened ]
 
 permissions:
   pull-requests: write
