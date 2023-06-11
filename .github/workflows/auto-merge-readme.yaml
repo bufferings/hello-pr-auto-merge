@@ -25,15 +25,12 @@ jobs:
           fetch-depth: 0
 
       - name: Check if only README.md is updated
-        env:
-          BASE_REF: ${{ github.base_ref }}
         run: |
-          echo "BASE_REF=$BASE_REF"
-          git diff --name-only "origin/$BASE_REF" HEAD | tee /tmp/diffs
+          git diff --name-only "origin/main" HEAD | tee /tmp/diffs
           if [ "$(wc -l < /tmp/diffs)" -eq "$(grep -c "^README.md$" /tmp/diffs)" ]; then
-            echo 'ONLY_README=yes' >> "$GITHUB_ENV"
+            echo 'ONLY_README=yes' | tee -a "$GITHUB_ENV"
           else
-            echo 'ONLY_README=no' >> "$GITHUB_ENV"
+            echo 'ONLY_README=no' | tee -a "$GITHUB_ENV"
           fi
 
       - name: Approve PR
