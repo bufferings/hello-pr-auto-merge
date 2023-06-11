@@ -30,11 +30,15 @@ jobs:
         run: |
           echo "BASE_REF=$BASE_REF"
           git diff --name-only "origin/$BASE_REF" HEAD | tee /tmp/diffs
-          cat /tmp/diffs
+          if [ "$(wc -l < /tmp/diffs)" -eq "$(grep -c "^README.md$" /tmp/diffs)" ]; then
+            echo 'ONLY_README=yes' >> "$GITHUB_ENV"
+          else
+            echo 'ONLY_README=no' >> "$GITHUB_ENV"
+          fi
 
-
-      # - name: Approve PR
-      #   run: gh pr review "$PR_URL" --approve
+      - name: Approve PR
+        if: env.ONLY_README == 'yes'
+        run: gh pr review "$PR_URL" --approve
 
       # - name: Enable auto-merge
       #   run: gh pr merge --merge --auto "$PR_URL"
